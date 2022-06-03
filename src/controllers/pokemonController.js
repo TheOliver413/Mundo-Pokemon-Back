@@ -15,14 +15,14 @@ exports.addNewPokemon = async (req, res, next) => {
         default: { name: type }
     })
     await newPokemon[0].addTypes(typePokemon)
-    res.send('pokemon created')
+    res.send('Pokémon creado')
 }
 
 
 
 exports.getAllPokemons = async (req, res, next) => {
     try {
-        const api = await axios.get('https://pokeapi.co/api/v2/pokemon/?limit=150')
+        const api = await axios.get('https://pokeapi.co/api/v2/pokemon/?limit=40')
 
         //DATABASE
         const elem = await Pokemon.findAll()
@@ -188,8 +188,7 @@ exports.getPokemonById = async (req, res, next) => {
             res.send(object)
         }
     } catch (error) {
-        res.status(500).json({ error: 'There was a mistake...' })
-
+        res.status(500).json({ error: 'Ha ocurrido un error' })
     };
 }
 
@@ -201,7 +200,7 @@ exports.getPokemonById = async (req, res, next) => {
 
 exports.OrderAscAttack = async (req, res, next) => {
     try {
-        const api = await axios.get('https://pokeapi.co/api/v2/pokemon/?limit=30')
+        const api = await axios.get('https://pokeapi.co/api/v2/pokemon/?limit=40')
           //DATABASE
           const elem = await Pokemon.findAll()
           const arg = await PokemonType.findAll()
@@ -240,13 +239,13 @@ exports.OrderAscAttack = async (req, res, next) => {
        resultado.sort((a, b) => (a.attack > b.attack) ? 1 : ((b.attack > a.attack) ? -1 : 0))
         res.send(resultado)
     } catch (error) {
-        res.status(500).json({ error: 'There was a mistake...' })
+        res.status(500).json({ error: 'Ha ocurrido un error' })
     }
 };
 
 exports.OrderDescAttack = async (req, res, next) => {
     try {
-        const api = await axios.get('https://pokeapi.co/api/v2/pokemon/?limit=30')
+        const api = await axios.get('https://pokeapi.co/api/v2/pokemon/?limit=40')
                //DATABASE
                const elem = await Pokemon.findAll()
                const arg = await PokemonType.findAll()
@@ -288,14 +287,14 @@ exports.OrderDescAttack = async (req, res, next) => {
         res.send(resultado)
 
     } catch (error) {
-        res.status(500).json({ error: 'There was a mistake...' })
+        res.status(500).json({ error: 'Ha ocurrido un error' })
     }
 };
 
 
 exports.filtAPIPokemons = async (req, res, next) => {
     try {
-        const api = await axios.get('https://pokeapi.co/api/v2/pokemon/?limit=30')
+        const api = await axios.get('https://pokeapi.co/api/v2/pokemon/?limit=40')
         let respuesta = api.data.results
         let info = [];
         for (let i = 0; i < respuesta.length; i++) {
@@ -310,7 +309,7 @@ exports.filtAPIPokemons = async (req, res, next) => {
         }
         res.send(info)
     } catch (error) {
-        res.status(500).json({ error: 'There was a mistake...' })
+        res.status(500).json({ error: 'Ha ocurrido un error' })
     }
 };
 
@@ -338,7 +337,7 @@ exports.filtOwnPokemons = async (req, res, next) => {
         }
         res.send(elem)
     } catch (error) {
-        res.status(500).json({ error: 'There was a mistake...' })
+        res.status(500).json({ error: 'Ha ocurrido un error' })
     }
 };
 
