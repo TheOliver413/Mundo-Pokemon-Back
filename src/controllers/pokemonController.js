@@ -22,7 +22,7 @@ exports.addNewPokemon = async (req, res, next) => {
 
 exports.getAllPokemons = async (req, res, next) => {
     try {
-        const api = await axios.get('https://pokeapi.co/api/v2/pokemon/?limit=30')
+        const api = await axios.get('https://pokeapi.co/api/v2/pokemon/?limit=150')
 
         //DATABASE
         const elem = await Pokemon.findAll()
