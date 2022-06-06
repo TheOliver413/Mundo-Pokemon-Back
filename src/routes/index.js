@@ -6,7 +6,7 @@ const {getTypes} = require('../controllers/typeController')
 
 const router = Router();
 router.use('/pokemon', PokemonRoute)
-router.get("/types", async function(req,res){
+router.get("/type", async function(req,res){
     try{
         const type = await getTypes()
         res.json(type)
