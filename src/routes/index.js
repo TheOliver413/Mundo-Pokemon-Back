@@ -1,11 +1,19 @@
-const { Router, response } = require('express');
+
+const { Router } = require('express');
 
 const PokemonRoute = require('./pokemon')
-const TypeRoute = require('./type')
+const {getTypes} = require('../controllers/typeController')
 
 const router = Router();
-
 router.use('/pokemon', PokemonRoute)
-router.use('/type', TypeRoute)
-
+router.get("/types", async function(req,res){
+    try{
+        const type = await getTypes()
+        res.json(type)
+        }
+    catch(e){
+        console.log(e.message)
+        res.send(e.message)
+    }
+})
 module.exports = router;

@@ -1,29 +1,35 @@
 const axios = require('axios')
 const { Type } = require('../db')
 
-exports.saveTypes = async (req, res, next) => {
-    try {
-        const api = await axios.get('https://pokeapi.co/api/v2/type/')
-        let respuesta = api.data.results
-        for (let i = 0; i < respuesta.length; i++) {
-            const apiRes = await axios.get(`${respuesta[i].url}`)
-            const typeCreated = Type.findOrCreate({
-                where: {
-                    name: apiRes.data.name,
-                    id: respuesta[i].url.split('/')[6],
-                }
-            })
+const getTypes = async function(){
+    var types=[];
+    let urls=[] 
+    try{
+    const apiInfo = await axios.get (`https://pokeapi.co/api/v2/type`)
+    apiInfo.data.results.forEach(c=>{
+        urls.push(c.url)
+    })
+    for(let i=0; i<urls.length; i++){
+        let typ = await axios.get (urls[i])
+        let ty={
+            name:typ.data.name,
+            id:typ.data.id
         }
-    } catch (error) {
-        next(error);
+        types.push(ty)
+    }
+    types.forEach(d=>{
+        Type.findOrCreate({
+            where:{
+                name: d.name,
+                id: d.id
+            }
+        })
+    })
+    const allTypes = await Type.findAll();
+    return allTypes}
+    catch(e){
+        res.json(e)
     }
 }
 
-exports.getAllTypes = async (req, res, next) => {
-    Type.findAll()
-        .then(categories => {
-            res.json(categories);
-        })
-};
-
-
+module.exports = {getTypes}
